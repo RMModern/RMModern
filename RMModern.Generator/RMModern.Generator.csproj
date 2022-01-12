@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>preview</LangVersion>
+		<PackageVersion>1.0.0.0</PackageVersion>
+		<PackageId>RocketMod.Modern.Generator</PackageId>
+		<Title>RocketMod modern source generator</Title>
+		<Authors>Sl4vP0weR</Authors>
+		<Description>Source generator for Modern RocketMod(RM4)</Description>
+		<PackageTags>RM4;RocketMod;Unturned</PackageTags>
+		<IncludeContentInPack>true</IncludeContentInPack>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GenerateNugetPackage>true</GenerateNugetPackage>
+		<NoPackageAnalysis>true</NoPackageAnalysis>
+		<ContentTargetFolders>content</ContentTargetFolders>
+		<RunPostBuildEvent>Always</RunPostBuildEvent>
+	</PropertyGroup>
+
+	<ItemGroup>
+
+		<Content Include="**/**" Exclude="**/bin/**;**/obj/**" />
+		
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.11.0" PrivateAssets="all" />
+	</ItemGroup>
+
+</Project>
