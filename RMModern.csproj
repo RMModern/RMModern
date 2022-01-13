@@ -3,7 +3,7 @@
 		<TargetFramework>net472</TargetFramework>
 		<LangVersion>preview</LangVersion>
 		<PackageType>Template</PackageType>
-		<PackageVersion>1.0.0.6</PackageVersion>
+		<PackageVersion>1.0.0.7</PackageVersion>
 		<PackageId>RocketMod.Modern</PackageId>
 		<Title>RocketMod modern templates</Title>
 		<Authors>Sl4vP0weR, Greenorine</Authors>
@@ -22,16 +22,11 @@
 		<Compile Remove="**/**" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.CodeAnalysis" Version="3.11.0" />
-	  <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.11.0" />
-	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Update="Update.cmd">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="Update.cmd">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="start Update.cmd $(OutputPath)/../RocketMod.Modern.$(PackageVersion).nupkg" />
+		<Exec Command="start Update.cmd $(OutputPath)/../$(PackageId).$(PackageVersion).nupkg" />
 	</Target>
 </Project>
