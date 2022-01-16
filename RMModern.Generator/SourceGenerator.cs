@@ -2,6 +2,9 @@
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 
 namespace RMModern.Generator;
 
@@ -10,13 +13,22 @@ public abstract class SourceGenerator
     public SourceGenerator() { }
     public readonly StringBuilder Content = new StringBuilder();
     public abstract string ContentFile { get; }
-    public async Task Execute(GeneratorExecutionContext context)
+    public void Execute(GeneratorExecutionContext context)
     {
-        await OnExecute(context);
-        context.AddSource(ContentFile, Content.ToString());
+        Content.Clear();
+        try
+        {
+            OnExecute(context);
+            context.AddSource(ContentFile, SourceText.From(Content.ToString(), Encoding.UTF8));
+        }
+        catch (Exception ex)
+        {
+            new Analyzer().Report("RM1500", context, Location.None, GetType().Name, ex);
+        }
     }
-    static string FormatModifiers(string[] modifiers, string joiner = " ") => 
-        modifiers.Length > 0 ? string.Join(joiner, modifiers)+" " : "";
+    static string FormatModifiers(string[] modifiers, string joiner = " ", string postfix = " ") => 
+        modifiers.Length > 0 ? string.Join(joiner, modifiers)+postfix : "";
+    static string FormatArgs(string[] args) => FormatModifiers(args, ", ", "");
     string CurrentTabulation = "";
     const string Tab = "    ";
     public void AddTab() => CurrentTabulation += Tab;
@@ -32,65 +44,53 @@ public abstract class SourceGenerator
             if(tab) 
                 RemoveTab(); 
             AppendLine(end); 
-            AppendLine(); 
+            AppendLine();
         });
     }
+    string IfNotEmpty(string value, string nonEmptyText) => string.IsNullOrWhiteSpace(value) ? "" : nonEmptyText;
+
     public IDisposable Namespace(string @namespace, bool fileScoped = false)
     {
-        AppendLine();
+        if (string.IsNullOrWhiteSpace(@namespace))
+            return new Disposable();
         if (fileScoped)
         {
             Content.AppendLine($"namespace {@namespace};");
-            return null;
+            return new Disposable();
         }
-        AppendLine($"namespace {@namespace}");
-        return Block();
+        
+        return AppendLine($"namespace {@namespace}").Block();
     }
-    public IDisposable Class(string name, params string[] modifiers)
-    {
-        AppendLine();
-        AppendLine($"{FormatModifiers(modifiers)}class {name}");
-        return Block();
-    }
-    string IfNotEmpty(string value, string nonEmptyText) => string.IsNullOrWhiteSpace(value) ? "" : nonEmptyText;
-    public SourceGenerator Field(string type, string name, string initializer = "", params string[] modifiers)
-    {
-        AppendLine();
-        AppendLine($"{FormatModifiers(modifiers)}{type} {name}{IfNotEmpty(initializer, $" = {initializer}")};");
-        return AppendLine();
-    }
-    public IDisposable Method(string type, string name, string[] modifiers = null, params string[] args)
-    {
-        AppendLine();
-        AppendLine($"{FormatModifiers(modifiers)}{type} {name}({FormatModifiers(args, ", ")})");
-        return Block();
-    }
-    public SourceGenerator InlineMethod(string type, string name, string[] modifiers, string expression, params string[] args)
-    {
-        AppendLine();
-        return AppendLine($"{FormatModifiers(modifiers)}{type} {name}({FormatModifiers(args, ", ")}) => {expression};");
-    }
+
+    public IDisposable Class(string name, params string[] modifiers) =>
+        AppendLine($"{FormatModifiers(modifiers)}class {name}").Block();
+
+    public SourceGenerator Field(string type, string name, string initializer = "", params string[] modifiers) =>
+        AppendLine($"{FormatModifiers(modifiers)}{type} {name}{IfNotEmpty(initializer, $" = {initializer}")};").AppendLine();
+
+    public IDisposable Method(string type, string name, string[] modifiers = null, params string[] args) =>
+        AppendLine($"{FormatModifiers(modifiers)}{type} {name}({FormatArgs(args)})").Block();
+
+    public SourceGenerator InlineMethod(string type, string name, string[] modifiers, string expression, params string[] args) =>
+        AppendLine($"{FormatModifiers(modifiers)}{type} {name}({FormatArgs(args)}) => {expression};");
+
     public SourceGenerator Append(string text)
     {
-        Content.Append(CurrentTabulation+text);
+        Content.Append(CurrentTabulation + text);
         return this;
     }
-    public SourceGenerator AppendLine()
-    {
-        Content.AppendLine();
-        return this;
-    }
+    public SourceGenerator AppendLine() => AppendLine("");
     public SourceGenerator AppendLine(string text)
     {
         Content.AppendLine(CurrentTabulation + text);
         return this;
     }
-    public abstract Task OnExecute(GeneratorExecutionContext context);
+    public abstract void OnExecute(GeneratorExecutionContext context);
 }
 public class Disposable : IDisposable
 {
     Action OnDispose;
-    public Disposable(Action onDispose)
+    public Disposable(Action onDispose = null)
     {
         OnDispose = onDispose;
     }

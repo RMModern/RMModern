@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>preview</LangVersion>
-		<PackageVersion>1.0.0.2</PackageVersion>
+		<PackageVersion>1.0.0.3</PackageVersion>
 		<PackageId>RocketMod.Modern.Generator</PackageId>
 		<Title>RocketMod modern source generator</Title>
 		<Authors>Sl4vP0weR</Authors>
@@ -12,8 +12,6 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<RunPostBuildEvent>Always</RunPostBuildEvent>
-		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-		<CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -23,6 +21,7 @@
 
 	<ItemGroup>
 		<Content Remove="Update.cmd" />
+		<None Remove="**\bin\**" />
 
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.8.0" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.1">
@@ -37,6 +36,6 @@
 		</None>
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="start Update.cmd $(OutputPath)/../$(PackageId).$(PackageVersion).nupkg" />
+		<Exec Command="start Update.cmd $(OutputPath)../$(PackageId).$(PackageVersion).nupkg" />
 	</Target>
 </Project>
