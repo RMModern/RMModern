@@ -16,18 +16,11 @@ public abstract class SourceGenerator
     public void Execute(GeneratorExecutionContext context)
     {
         Content.Clear();
-        try
-        {
-            OnExecute(context);
-            context.AddSource(ContentFile, SourceText.From(Content.ToString(), Encoding.UTF8));
-        }
-        catch (Exception ex)
-        {
-            new Analyzer().Report("RM1500", context, Location.None, GetType().Name, ex);
-        }
+        OnExecute(context);
+        context.AddSource(ContentFile, SourceText.From(Content.ToString(), Encoding.UTF8));
     }
-    static string FormatModifiers(string[] modifiers, string joiner = " ", string postfix = " ") => 
-        modifiers.Length > 0 ? string.Join(joiner, modifiers)+postfix : "";
+    static string FormatModifiers(string[] modifiers, string joiner = " ", string postfix = " ") =>
+        modifiers.Length > 0 ? string.Join(joiner, modifiers) + postfix : "";
     static string FormatArgs(string[] args) => FormatModifiers(args, ", ", "");
     string CurrentTabulation = "";
     const string Tab = "    ";
@@ -37,13 +30,13 @@ public abstract class SourceGenerator
     public IDisposable Block(string start = "{", string end = "}", bool tab = true)
     {
         AppendLine(start);
-        if(tab)
+        if (tab)
             AddTab();
-        return new Disposable(() => 
-        { 
-            if(tab) 
-                RemoveTab(); 
-            AppendLine(end); 
+        return new Disposable(() =>
+        {
+            if (tab)
+                RemoveTab();
+            AppendLine(end);
             AppendLine();
         });
     }
@@ -58,7 +51,7 @@ public abstract class SourceGenerator
             Content.AppendLine($"namespace {@namespace};");
             return new Disposable();
         }
-        
+
         return AppendLine($"namespace {@namespace}").Block();
     }
 

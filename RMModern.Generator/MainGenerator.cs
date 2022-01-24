@@ -11,30 +11,6 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace RMModern.Generator;
 
-[DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class Analyzer : DiagnosticAnalyzer
-{
-    public static Analyzer Instance = new();
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = new ImmutableArray<DiagnosticDescriptor>()
-    {
-        new ("RM1500", "Generator Error", "Generator throwed an error.", "Generation", DiagnosticSeverity.Error, false)
-    };
-
-    DiagnosticDescriptor GetReportDescriptor(string id) => SupportedDiagnostics.FirstOrDefault(x => x.Id.ToLower() == id.ToLower());
-    public void Report(string id, GeneratorExecutionContext context, Location at, params object[] args)
-    {
-        var descriptor = GetReportDescriptor(id);
-        if (descriptor is null)
-            return;
-        context.ReportDiagnostic(Diagnostic.Create(descriptor, at, args));
-    }
-
-    public override void Initialize(AnalysisContext context)
-    {
-        context.EnableConcurrentExecution();
-        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-    }
-}
 [Generator]
 public class MainGenerator : ISourceGenerator
 {

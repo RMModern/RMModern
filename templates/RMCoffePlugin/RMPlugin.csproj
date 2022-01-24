@@ -2,17 +2,17 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<LangVersion>preview</LangVersion>
-		<TargetFrameworks>net472</TargetFrameworks>
+		<TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
+		<FileAlignment>512</FileAlignment>
+		<Deterministic>true</Deterministic>
 		<AssemblyName>RMPlugin</AssemblyName>
 		<RootNamespace>Plugin_Namespace</RootNamespace>
 		<NoWarn>$(NoWarn);NU1701;NU1702;CS0436</NoWarn>
-		<RunPostBuildEvent>Always</RunPostBuildEvent>
+		<RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
 		<Nullable>annotations</Nullable>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-		<CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<PackageReference Include="Legacy2CPSWorkaround" Version="1.0.0">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,9 +21,9 @@
 		<PackageReference Include="RocketMod.Modern.Dependencies" Version="1.*-*">
 			<IncludeAssets>compile</IncludeAssets>
 		</PackageReference>
+
 		<PackageReference Include="RocketMod.Modern.Generator" Version="1.*-*">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>compile; analyzers</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 </Project>

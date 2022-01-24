@@ -81,7 +81,7 @@ public class TranslationsGenerator : SourceGenerator
                             {
                                 allTranslations.Add(translation.Key, translation.Value);
                                 AppendLine($"/// <summary><c>{translation.Value}</c></summary>");
-                                InlineMethod("string", $"Translate{translation.Key}", new[] { "public", "static" }, $"Translate(nameof({translation.Key}), args)", "params string[] args");
+                                InlineMethod("string", $"Translate{translation.Key}", new[] { "public", "static" }, $"Translate(nameof({translation.Key}), args)", "params object[] args");
                             }
                         }
                     }
