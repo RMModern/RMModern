@@ -9,41 +9,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace RMModern.Generator;
 
-public class TranslationsSearcher : SyntaxRewriter
-{
-    public TranslationsSearcher(SemanticModel semantic, GeneratorExecutionContext context, ClassDeclarationSyntax @class) : base(semantic, context) { Class = @class; }
-    public ClassDeclarationSyntax Class;
-    public Dictionary<string, string> Translations = new();
-    public override SyntaxNode VisitFieldDeclaration(FieldDeclarationSyntax field)
-    {
-        var fieldDecl = field.Declaration;
-        if (fieldDecl.IsMissing())
-            return field;
-        if (fieldDecl.Type.IsMissing())
-            return field;
-        var typeSymbol = Semantic.GetTypeInfo(field.Declaration.Type);
-        if (typeSymbol.Type.SpecialType != SpecialType.System_String)
-            return field;
-        try
-        {
-            foreach (var variable in fieldDecl.Variables)
-            {
-                var id = variable.Identifier;
-                var initializer = variable.Initializer;
-                if (variable.IsMissing() || id.IsMissing || initializer.IsMissing() || initializer.Value.IsMissing())
-                    continue;
-                var name = id.ValueText;
-                if (Translations.ContainsKey(name))
-                    continue;
-                Translations.Add(name, initializer.Value.ToString());
-            }
-        }
-        catch { }
-
-        return field;
-    }
-}
-
 public class TranslationsGenerator : SourceGenerator
 {
     public override string ContentFile => "Translations.g.cs";
@@ -66,7 +31,7 @@ public class TranslationsGenerator : SourceGenerator
                 var @namespace = @class.GetNamespace(semantic);
 
                 var searcher = new TranslationsSearcher(semantic, context, @class);
-                searcher.Visit(root);
+                searcher.Visit(@class);
 
                 foreach (var translation in allTranslations)
                     searcher.Translations.Remove(translation.Key);
@@ -87,6 +52,40 @@ public class TranslationsGenerator : SourceGenerator
                     }
                 }
             }
+        }
+    }
+    public class TranslationsSearcher : SyntaxRewriter
+    {
+        public TranslationsSearcher(SemanticModel semantic, GeneratorExecutionContext context, ClassDeclarationSyntax @class) : base(semantic, context) { Class = @class; }
+        public ClassDeclarationSyntax Class;
+        public Dictionary<string, string> Translations = new();
+        public override SyntaxNode VisitFieldDeclaration(FieldDeclarationSyntax field)
+        {
+            var fieldDecl = field.Declaration;
+            if (fieldDecl.IsMissing())
+                return field;
+            if (fieldDecl.Type.IsMissing())
+                return field;
+            var typeSymbol = Semantic.GetTypeInfo(field.Declaration.Type);
+            if (typeSymbol.Type.SpecialType != SpecialType.System_String)
+                return field;
+            try
+            {
+                foreach (var variable in fieldDecl.Variables)
+                {
+                    var id = variable.Identifier;
+                    var initializer = variable.Initializer;
+                    if (variable.IsMissing() || id.IsMissing || initializer.IsMissing() || initializer.Value.IsMissing())
+                        continue;
+                    var name = id.ValueText;
+                    if (Translations.ContainsKey(name))
+                        continue;
+                    Translations.Add(name, initializer.Value.ToString());
+                }
+            }
+            catch { }
+
+            return field;
         }
     }
 }

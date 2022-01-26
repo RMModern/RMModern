@@ -26,11 +26,11 @@ internal static class Extensions
     public static bool IsMissing(this SyntaxNode node) => node is null || node.IsMissing;
     public static bool IsMissing(this SyntaxToken token) => token.IsMissing || string.IsNullOrWhiteSpace(token.ValueText);
 
-    public static IEnumerable<TypeDeclarationSyntax> FindTypeDeclarations(this SyntaxNode root, string name, params SyntaxKind[] modifiers)
+    public static IEnumerable<TypeDeclarationSyntax> FindTypeDeclarations(this SyntaxNode root, string name = null, params SyntaxKind[] modifiers)
     {
         foreach (var type in root.DescendantNodes().OfType<TypeDeclarationSyntax>())
         {
-            if (!type.IsMissing() && !type.Identifier.IsMissing() && type.Identifier.ValueText == name && type.Modifiers.Has(modifiers))
+            if (!type.IsMissing() && !type.Identifier.IsMissing() && type.Modifiers.Has(modifiers) && (name is null || (type.Identifier.ValueText == name)))
                 yield return type;
         }
         yield break;

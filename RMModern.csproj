@@ -3,7 +3,7 @@
 		<TargetFramework>net472</TargetFramework>
 		<LangVersion>preview</LangVersion>
 		<PackageType>Template</PackageType>
-		<PackageVersion>1.0.0.8</PackageVersion>
+		<PackageVersion>1.0.0.9</PackageVersion>
 		<PackageId>RocketMod.Modern</PackageId>
 		<Title>RocketMod modern templates</Title>
 		<Authors>Sl4vP0weR, Greenorine</Authors>

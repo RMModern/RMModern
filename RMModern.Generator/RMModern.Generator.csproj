@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>preview</LangVersion>
-		<PackageVersion>1.0.0.6</PackageVersion>
+		<PackageVersion>1.0.0.7</PackageVersion>
 		<PackageId>RocketMod.Modern.Generator</PackageId>
 		<Title>RocketMod modern source generator</Title>
 		<Authors>Sl4vP0weR</Authors>

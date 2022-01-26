@@ -17,7 +17,8 @@ public abstract class SourceGenerator
     {
         Content.Clear();
         OnExecute(context);
-        context.AddSource(ContentFile, SourceText.From(Content.ToString(), Encoding.UTF8));
+        if(!string.IsNullOrWhiteSpace(ContentFile))
+            context.AddSource(ContentFile, SourceText.From(Content.ToString(), Encoding.UTF8));
     }
     static string FormatModifiers(string[] modifiers, string joiner = " ", string postfix = " ") =>
         modifiers.Length > 0 ? string.Join(joiner, modifiers) + postfix : "";

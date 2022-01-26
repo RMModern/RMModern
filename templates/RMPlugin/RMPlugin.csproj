@@ -21,9 +21,6 @@
 		<PackageReference Include="RocketMod.Modern.Dependencies" Version="1.*-*">
 			<IncludeAssets>compile</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="RocketMod.Modern.Generator" Version="1.*-*">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
+		<PackageReference Include="RocketMod.Modern.Generator" Version="1.*-*" />
 	</ItemGroup>
 </Project>
