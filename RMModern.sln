@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RMModern", "RMModern.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RMPlugin", "templates\RMPlugin\RMPlugin.csproj", "{5DC40A4B-03EC-476C-BCEB-5833774B278A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMModern.Generator", "RMModern.Generator\RMModern.Generator.csproj", "{1CC9306F-E00E-4791-9BFC-E300D80B8822}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RMModern.Generator", "RMModern.Generator\RMModern.Generator.csproj", "{1CC9306F-E00E-4791-9BFC-E300D80B8822}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

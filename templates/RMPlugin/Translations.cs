@@ -18,7 +18,7 @@ public static partial class Translations
             var translations = new TranslationList();
             translations.AddRange(
             typeof(Translations).GetFields(BindingFlags.Static | BindingFlags.Public)
-            .Where(x => x.IsStatic || x.IsLiteral)
+            .Where(x => (x.IsStatic && x.IsInitOnly) || x.IsLiteral)
             .Select(x =>
                 new TranslationListEntry(x.Name.Trim(TranslationKeyTrimCharacters), (x.IsLiteral ? x.GetRawConstantValue() : x.GetValue(null)).ToString())
             ));

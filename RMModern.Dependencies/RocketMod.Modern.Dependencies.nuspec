@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+	<metadata>
+		<id>RocketMod.Modern.Dependencies</id>
+		<version>1.1.1.1</version>
+		<authors>SmartlyDressedGames;fr34kyn01535;OpenMod;Sl4vP0weR</authors>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<description>Unturned + RM4 + UniTask libraries</description>
+		<dependencies>
+		<group targetFramework=".NETFramework4.7.2">
+			<dependency id="OpenMod.UniTask" version="2019.2.2.5" />
+			<dependency id="OpenMod.UnityEngine.Redist" version="2019.4.10" />
+			<dependency id="OpenMod.Unturned.Redist" version="3.21.33-preview.1" />
+		</group>
+		<group targetFramework=".NETStandard2.0">
+			<dependency id="OpenMod.UniTask" version="2019.2.2.5" />
+			<dependency id="OpenMod.UnityEngine.Redist" version="2019.4.10" />
+			<dependency id="OpenMod.Unturned.Redist" version="3.21.33-preview.1" />
+		</group>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="netframework\**" target="lib\net472" />
+		<file src="*.dll" target="lib\net472" />
+		<file src="*.pdb" target="lib\net472" />
+		<file src="*.dll" target="lib\netstandard2.0" />
+		<file src="*.pdb" target="lib\netstandard2.0" />
+	</files>
+</package>
