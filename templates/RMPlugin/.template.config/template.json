@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Sl4vP0weR",
-  "classifications": [ "Plugin", "Plug-In", "RocketMod", "RM4", "Unturned 3" ],
+  "classifications": [ "Plugin", "Plug-In", "RocketMod4", "RM4", "Unturned", "Unturned 3" ],
   "identity": "RocketMod.Modern.Plugin",
   "name": "Default RocketMod(RM4) Modern Plugin",
   "shortName": "rm-modern-plugin",

@@ -35,6 +35,8 @@ namespace Plugin_Namespace;
 
 public static partial class Utils
 {
+    // just shorthands, you can simply remove/rename them if you want to.
     public static Main_Type inst => Main_Type.Instance;
     public static Config_Type conf => inst.Configuration.Instance;
+    //
 }

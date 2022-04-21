@@ -2,6 +2,14 @@
 
 namespace Plugin_Namespace;
 
+#region Translations for Main_Type
+partial class Main_Type
+{
+    public override TranslationList DefaultTranslations => DefaultTranslationList;
+
+    public new string Translate(string key, params object[] args) => base.Translate(key.Trim(TranslationKeyTrimCharacters), args);
+}
+#endregion
 // Don't rename this class, it will be used in analyzer.
 public static partial class Translations
 {
@@ -28,9 +36,9 @@ public static partial class Translations
     /// <summary>
     /// This method is important for analyzer!
     /// </summary>
-    public static string Translate(string translationKey, params object[] arguments) => inst.Translate(translationKey, arguments);
+    public static string Translate(string translationKey, params object[] arguments) => Main_Type.Instance.Translate(translationKey, arguments);
     #endregion
     // You can write static/const string fields(translations) here. By default _ will be trimmed
     public const string
-        Hello = "Hello from RocketMod.Modern!";
+        Hello = "Hello from RocketMod.Modern!"; // use TranslateHello method to translate(initializer is default value for translation)
 }

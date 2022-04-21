@@ -14,10 +14,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Legacy2CPSWorkaround" Version="1.0.0">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
 		<PackageReference Include="RocketMod.Modern.Dependencies" Version="1.*-*">
 			<IncludeAssets>compile</IncludeAssets>
 		</PackageReference>
