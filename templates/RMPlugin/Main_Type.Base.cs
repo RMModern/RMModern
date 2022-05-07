@@ -13,6 +13,11 @@ partial class Main_Type
         base.LoadPlugin();
         StartHandlingShutdown();
     }
+    public override void UnloadPlugin(PluginState state = PluginState.Unloaded)
+    {
+        base.UnloadPlugin(state);
+        Instance = null;
+    }
     static bool InstanceExists() => Instance is not null;
     static void AssertInstance(bool exists)
     {
