@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Plugin_Namespace;
+﻿namespace Plugin_Namespace;
 
 // this base handling shutdown and multiple instances of this component
 partial class Main_Type

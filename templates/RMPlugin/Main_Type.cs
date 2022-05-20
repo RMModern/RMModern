@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Plugin_Namespace;
+﻿namespace Plugin_Namespace;
 
 public sealed partial class Main_Type : RocketPlugin<Config_Type>
 {
