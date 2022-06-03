@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -42,9 +43,22 @@ internal static class Extensions
             var symbol = semantic.GetDeclaredSymbol(type.Parent);
             if (symbol is not INamespaceSymbol namespaceSymbol)
                 return null;
-            return namespaceSymbol.Name.ToString();
+            return namespaceSymbol.GetFullNamespace();
         }
         catch { }
         return null;
+    }
+    public static string GetFullNamespace(this INamespaceSymbol namespaceSymbol)
+    {
+        var fullNamespace = namespaceSymbol.Name;
+
+        if (!string.IsNullOrEmpty(fullNamespace))
+        {
+            var parentNamespace = namespaceSymbol.ContainingNamespace.GetFullNamespace();
+            if (!string.IsNullOrEmpty(parentNamespace))
+                fullNamespace = parentNamespace + Type.Delimiter + fullNamespace;
+        }
+
+        return fullNamespace;
     }
 }
