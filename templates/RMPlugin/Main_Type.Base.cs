@@ -20,7 +20,7 @@ partial class Main_Type
     static void AssertInstance(bool exists)
     {
         if (InstanceExists() != exists)
-            throw new Exception($"{nameof(Plugin_Namespace)}.{nameof(Main_Type)} instance already exists, use {nameof(Main_Type)}.{nameof(Instance)} to access it's instance.");
+            throw new Exception($"{typeof(Main_Type).FullName} instance already exists, use {nameof(Main_Type)}.{nameof(Instance)} to access it's instance.");
     }
     public static Main_Type Instance { get; private set; }
     void StopHandlingShutdown()
