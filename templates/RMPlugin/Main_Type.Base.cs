@@ -36,8 +36,8 @@ partial class Main_Type
     }
     void OnShutdown()
     {
-        AssertInstance(true);
-        Instance = null;
+        if (Instance is null)
+            return;
         StopHandlingShutdown();
         UnloadPlugin();
     }
