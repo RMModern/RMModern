@@ -3,7 +3,7 @@
 // this base handling shutdown and multiple instances of this component
 partial class Main_Type
 {
-    Main_Type() { }
+    private Main_Type() { }
     public override void LoadPlugin()
     {
         AssertInstance(false);
@@ -16,31 +16,37 @@ partial class Main_Type
         base.UnloadPlugin(state);
         Instance = null;
     }
-    static bool InstanceExists() => Instance is not null;
-    static void AssertInstance(bool exists)
+
+    private static bool InstanceExists() => Instance is not null;
+
+    private static void AssertInstance(bool exists)
     {
         if (InstanceExists() != exists)
-            throw new Exception($"{typeof(Main_Type).FullName} instance already exists, use {nameof(Main_Type)}.{nameof(Instance)} to access it's instance.");
+            throw new Exception($"{typeof(Main_Type).FullName} instance already {(exists ? "not exists" : $"exists, use {nameof(Main_Type)}.{nameof(Instance)} to access it's instance")}.");
     }
     public static Main_Type Instance { get; private set; }
-    void StopHandlingShutdown()
+
+    private void StopHandlingShutdown()
     {
         Application.quitting -= OnShutdown;
         Provider.onCommenceShutdown -= OnShutdown;
     }
-    void StartHandlingShutdown()
+
+    private void StartHandlingShutdown()
     {
         StopHandlingShutdown();
         Application.quitting += OnShutdown;
         Provider.onCommenceShutdown += OnShutdown;
     }
-    void OnShutdown()
+
+    private void OnShutdown()
     {
-        if (Instance is null)
+        if (!InstanceExists())
             return;
         StopHandlingShutdown();
         UnloadPlugin();
     }
-    void OnApplicationQuit() => OnShutdown();
-    void OnDestroy() => OnShutdown();
+
+    private void OnApplicationQuit() => OnShutdown();
+    private void OnDestroy() => OnShutdown();
 }
