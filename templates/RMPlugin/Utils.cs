@@ -18,6 +18,7 @@ global using SDG.Framework.Utilities;
 global using System;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
+global using System.Collections;
 global using System.Collections.Generic;
 global using System.Diagnostics;
 global using System.IO;
