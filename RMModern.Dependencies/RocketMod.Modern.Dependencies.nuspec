@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
 	<metadata>
 		<id>RocketMod.Modern.Dependencies</id>
-		<version>1.1.2.3</version>
+		<version>1.1.2.5</version>
 		<authors>SmartlyDressedGames;fr34kyn01535;OpenMod;Sl4vP0weR</authors>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="expression">MIT</license>
